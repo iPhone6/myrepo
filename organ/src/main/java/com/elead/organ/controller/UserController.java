@@ -131,6 +131,8 @@ public class UserController extends BaseRequestResult{
 			return resultInfo("0", "请求失败" , null);
 		}
 		
+		System.out.println("sssss");
+		
 		String code = "0" ;
 		String message = "请求失败" ;
 		try {
