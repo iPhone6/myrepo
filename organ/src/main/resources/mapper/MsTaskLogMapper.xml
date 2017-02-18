@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 指定工作空间，要与接口名相同，源代码没有去看，猜测应该是通过"这里的namespace.下边方法的id"来定位方法的 -->
+<mapper namespace="com.elead.organ.mapper.MsTaskLogMapper">
+	
+	<sql id="all_fields">
+		id, action, operating_time, operator, module, log_type
+	</sql>
+	
+	<sql id="all_fields_except_id">
+		action, operating_time, operator, module, log_type
+	</sql>
+	
+	<sql id="all_fields_except_id_sharp">
+		#{action}, #{operating_time}, #{operator}, #{module}, #{log_type}
+	</sql>
+	
+	<select id="queryMsTaskLogById" parameterType="int" resultType="com.elead.organ.model.MsTaskLog" >
+		select <include refid="all_fields"></include>
+		from ms_task_log
+		where id = #{id}
+	</select>
+	
+	<insert id="addMsTaskLog" parameterType="com.elead.organ.model.MsTaskLog" useGeneratedKeys="true" keyProperty="id" >
+		insert into ms_task_log(
+			<include refid="all_fields_except_id"></include>
+		) values(
+			<include refid="all_fields_except_id_sharp"></include>
+		)
+	</insert>
+	
+	<select id="findMsTaskLogByLogType" parameterType="string" resultType="com.elead.organ.model.MsTaskLog" >
+		select <include refid="all_fields"></include>
+		from ms_task_log
+		where log_type = #{log_type}
+	</select>
+	
+</mapper>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.elead.organ.mapper.ProjectMapper">
+
+	<select id="findProjectsList" resultType="com.elead.organ.model.Project"
+		parameterType="com.elead.organ.model.Project">
+		select groupId,groupName,remark,enabled from ms_group
+		<if test="project.groupName != null and project.groupName != '' ">
+			where groupName = #{project.groupName}
+		</if>
+	</select>
+
+	<update id="deleteProject" parameterType="com.elead.organ.model.Project"
+		useGeneratedKeys="true" keyProperty="id">
+		update ms_group set enabled =
+		#{project.enabled} where groupId =
+		#{project.groupId}
+	</update>
+
+</mapper>

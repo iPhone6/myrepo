@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 指定工作空间，要与接口名相同，源代码没有去看，猜测应该是通过"这里的namespace.下边方法的id"来定位方法的 -->
+<mapper namespace="com.elead.organ.mapper.MsRoleMapper">
+    
+    <!-- 若不需要自动返回主键，将useGeneratedKeys="true" keyProperty="id"去掉即可(当然如果不需要自动返回主键，直接用注解即可) -->
+<!--     <insert id="insertUserWithBackId" parameterType="User" useGeneratedKeys="true" keyProperty="id" >
+       <![CDATA[
+       INSERT INTO tb_user 
+       (
+           username,
+           password
+       )
+       VALUES
+       (
+           #{username, jdbcType=VARCHAR},
+           #{password, jdbcType=VARCHAR}
+       )
+       ]]>
+   </insert>
+     -->
+    
+    <insert id="addMsRoleWithBackId" parameterType="com.elead.organ.model.MsRole" useGeneratedKeys="true" keyProperty="roleId" >
+       <![CDATA[
+		insert into ms_role (roleName, remark, enabled) 
+		values(#{roleName}, #{remark}, #{enabled})
+       ]]>
+   </insert>
+	
+	
+	
+	
+	
+	<update id="updateMsRoleByRoleId" parameterType="com.elead.organ.model.MsRole" >
+		update ms_role
+		<set>
+			<if test="roleName != null and roleName != '' ">
+				roleName = #{roleName},
+			</if>
+			<if test="remark != null and remark != '' ">
+				remark = #{remark},
+			</if>
+			<if test="enabled != null ">
+				enabled = #{enabled},
+			</if>
+		</set>
+		where roleId = #{roleId}
+	</update>
+	
+	<!-- 
+	<delete id="deleteMsRoleByRoleId" parameterType="int" >
+		delete from ms_role
+		where roleId = #{roleId}
+	</delete>
+	 -->
+	<!-- 删除角色只是将该角色信息的enabled字段标注为不启用（false）状态 -->
+	<update id="deleteMsRoleByRoleId" parameterType="int" >
+		update ms_role
+		set enabled = false
+		where roleId = #{role_id}
+	</update>
+	
+	
+	
+</mapper>

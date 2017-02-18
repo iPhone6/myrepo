@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 指定工作空间，要与接口名相同，源代码没有去看，猜测应该是通过"这里的namespace.下边方法的id"来定位方法的 -->
+<mapper namespace="com.elead.organ.mapper.MsEnclosureMapper">
+	
+	<sql id="all_fields">
+		id, name, description, type_enclosure, storage_number, submitter, commit_time, size, edition
+	</sql>
+	
+	<sql id="all_fields_except_id">
+		name, description, type_enclosure, storage_number, submitter, commit_time, size, edition
+	</sql>
+	
+	<sql id="all_fields_except_id_sharp">
+		#{name}, #{description}, #{type_enclosure}, #{storage_number}, #{submitter}, #{commit_time}, #{size}, #{edition}
+	</sql>
+	
+	<sql id="all_fields_except_id_sharp_if">
+		<if test="name != null and name != '' ">
+			name = #{name},
+		</if>
+		<if test="description != null and description != '' ">
+			description = #{description},
+		</if>
+		<if test="type_enclosure != null and type_enclosure != '' ">
+			type_enclosure = #{type_enclosure},
+		</if>
+		<if test="storage_number != null and storage_number != '' ">
+			storage_number = #{storage_number},
+		</if>
+		<if test="submitter != null and submitter != '' ">
+			submitter = #{submitter},
+		</if>
+		<if test="commit_time != null and commit_time != '' ">
+			commit_time = #{commit_time},
+		</if>
+		<if test="size != null and size != '' ">
+			size = #{size},
+		</if>
+		<if test="edition != null and edition != '' ">
+			edition = #{edition},
+		</if>
+	</sql>
+	
+	<insert id="addMsEnclosure" parameterType="com.elead.organ.model.MsEnclosure" useGeneratedKeys="true" keyProperty="id" >
+		insert into ms_enclosure(
+			<include refid="all_fields_except_id"></include>
+		) values(
+			<include refid="all_fields_except_id_sharp"></include>
+		)
+	</insert>
+	
+	<delete id="deleteMsEnclosureById" parameterType="int" >
+		delete from ms_enclosure
+		where id = #{id}
+	</delete>
+	
+	<update id="updateMsEnclosureById" parameterType="com.elead.organ.model.MsEnclosure" >
+		update ms_enclosure
+		<set>
+			<include refid="all_fields_except_id_sharp_if"></include>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<select id="findMsEnclosureById" parameterType="int" resultType="com.elead.organ.model.MsEnclosure" >
+		select <include refid="all_fields"></include>
+		from ms_enclosure
+		where id = #{id}
+	</select>
+	
+</mapper>

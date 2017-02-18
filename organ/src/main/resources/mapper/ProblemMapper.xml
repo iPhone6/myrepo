@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 指定工作空间，要与接口名相同，源代码没有去看，猜测应该是通过"这里的namespace.下边方法的id"来定位方法的 -->
+<mapper namespace="com.elead.organ.mapper.ProblemMapper">
+    
+    <insert id="addProblem"  parameterType="com.elead.organ.model.Problem" useGeneratedKeys="true"  keyProperty="id">
+       <![CDATA[
+		insert into ms_problem (name, description, type_problem, planned_completion_time, priority, response_measures, present_people, person_liable, actual_completion_time, status)
+				values(#{name}, #{description}, #{type_problem}, #{planned_completion_time}, #{priority}, #{response_measures}, #{present_people}, #{person_liable}, 
+				#{actual_completion_time}, #{status})
+       ]]>
+   </insert>
+   
+   <select id="findAllProblemsByStatus"  resultType="com.elead.organ.model.Problem">
+   			select * from ms_problem where 1 = 1 
+   			<if test="status != null and status != ''">
+   					and	status = #{status}
+   			</if>
+   </select>
+   
+</mapper>
